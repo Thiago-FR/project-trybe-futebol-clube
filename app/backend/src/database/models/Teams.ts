@@ -14,10 +14,6 @@ Teams.init({
     autoIncrement: true,
     primaryKey: true,
     type: INTEGER,
-    // references: {
-    //   model: 'matches',
-    //   key: 'id',
-    // }
   },
   team_name: {
     allowNull: false,

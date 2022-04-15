@@ -14,10 +14,6 @@ Matches.init({
     autoIncrement: true,
     primaryKey: true,
     type: INTEGER,
-    // references: {
-    //   model: 'matches',
-    //   key: 'id',
-    // }
   },
   home_team: {
     type: INTEGER

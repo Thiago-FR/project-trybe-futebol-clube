@@ -8,10 +8,6 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'matches',
-        //   key: 'id',
-        // }
       },
       team_name: {
         allowNull: false,

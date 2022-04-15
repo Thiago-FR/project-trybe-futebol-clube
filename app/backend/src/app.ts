@@ -1,11 +1,12 @@
 import * as express from 'express';
+import Teams from './database/models/Teams';
 
 class App {
   public app: express.Express;
   // ...
 
   constructor() {
-    // ...
+    this.app = express();
     this.config();
     // ...
   }
@@ -19,12 +20,17 @@ class App {
     };
 
     this.app.use(accessControl);
-    // ...
+    this.app.get('/', async (_req, res) => {
+      res.status(200).json(await Teams.findAll())
+    });
   }
 
   // ...
   public start(PORT: string | number):void {
-    // ...
+    this.app.listen(PORT, () => {
+      console.log(`Ouvindo na porta ${PORT}`);
+      
+    });
   }
 }
 

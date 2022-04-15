@@ -1,13 +1,13 @@
-# FROM node:16-alpine
+FROM node:16-alpine
 
-# WORKDIR /app
+WORKDIR /app
 
-# COPY package.json .
+COPY package.json .
 
-# RUN npm install
+RUN npm install
 
-# COPY . .
+COPY . .
 
-# EXPOSE 3001
+EXPOSE 3001
 
-# CMD ["ts-node", "./src/server.ts"]
+CMD ["npm", "start"]

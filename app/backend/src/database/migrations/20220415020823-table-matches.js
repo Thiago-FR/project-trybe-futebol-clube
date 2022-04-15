@@ -7,7 +7,11 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'teams',
+          key: 'id',
+        }
       },
       home_team: {
         type: Sequelize.INTEGER

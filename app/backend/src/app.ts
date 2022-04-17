@@ -1,11 +1,14 @@
 import * as express from 'express';
 import ErrorHandle from './middlewares/ErrorHandle';
 import LoginRouter from './routes/login.routes';
+import TeamsRouter from './routes/teams.routes';
 
 class App {
   public app: express.Express;
 
   private loginRoutes = new LoginRouter(express.Router());
+
+  private teamsRoutes = new TeamsRouter(express.Router());
 
   constructor() {
     this.app = express();
@@ -31,6 +34,7 @@ class App {
     });
 
     this.app.use('/login', this.loginRoutes.router);
+    this.app.use('/teams', this.teamsRoutes.router);
 
     this.app.use(ErrorHandle.handleError);
   }

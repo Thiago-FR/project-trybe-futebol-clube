@@ -11,4 +11,10 @@ export default class UserService {
 
     return user as IUser;
   }
+
+  static async findAll(): Promise<IUser[]> {
+    const user = await Users.findAll();
+
+    return user as IUser[];
+  }
 }

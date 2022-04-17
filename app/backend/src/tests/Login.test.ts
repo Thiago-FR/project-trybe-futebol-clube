@@ -13,6 +13,7 @@ import loginPerfect, {
   loginPasswordVazio,
 } from './mocks/Login';
 import HashToken from '../middlewares/HashToken';
+import { use } from 'chai';
 
 chai.use(chaiHttp);
 
@@ -141,7 +142,8 @@ describe('Login', () => {
         .stub(UserService, "findOne")
         .resolves(user);
 
-      token = await HashToken.token({ 
+      token = await HashToken.token({
+        id: user.id,
         username: user.username,
         role: user.role,
         email: user.email, 
@@ -177,7 +179,8 @@ describe('Login', () => {
           password: HashToken.hash('super_secreto'),
         } as Users);
        
-      token = await HashToken.token({ 
+      token = await HashToken.token({
+        id: user.id,
         username: user.username,
         role: user.role,
         email: user.email, 
@@ -215,7 +218,8 @@ describe('Login/Validate', () => {
         password: HashToken.hash('super_secreto'),
       } as Users);
      
-    token = await HashToken.token({ 
+    token = await HashToken.token({
+      id: user.id,
       username: user.username,
       role: user.role,
       email: user.email, 

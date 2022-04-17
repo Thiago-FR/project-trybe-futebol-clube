@@ -7,7 +7,7 @@ export default class LoginController {
   static async login(req: Request, res: Response): Promise<Response> {
     const { id, username, role, email } = req.body.user as IUser;
 
-    const token = await HashToken.token({ username, role, email });
+    const token = await HashToken.token({ id, username, role, email });
 
     return res.status(200).json({ user: { id, username, role, email }, token });
   }

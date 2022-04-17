@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import ValidateLogin from '../schemas';
 import LoginController from '../controllers';
 import LoginAuth from '../middlewares/LoginAuth';
+import Auth from '../middlewares/Auth';
 
 export default class LoginRouter {
   constructor(public router: Router) {
@@ -14,6 +15,11 @@ export default class LoginRouter {
     this.router.post(
       '/',
       (req: Request, res: Response) => LoginController.login(req, res),
+    );
+    this.router.use(Auth.auth);
+    this.router.get(
+      '/validate',
+      (req: Request, res: Response) => LoginController.validade(req, res),
     );
   }
 }

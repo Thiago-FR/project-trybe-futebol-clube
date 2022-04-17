@@ -11,4 +11,10 @@ export default class LoginController {
 
     return res.status(200).json({ user: { id, username, role, email }, token });
   }
+
+  static async validade(req: Request, res: Response): Promise<Response> {
+    const { role } = req.body.user as IUser;
+
+    return res.status(200).send(role);
+  }
 }

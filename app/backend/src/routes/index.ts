@@ -1,5 +1,5 @@
-import loginRoutes from './login.routes';
-import teamsRoutes from './teams.routes';
+import LoginRouter from './login.routes';
+import TeamsRouter from './teams.routes';
 
-export default loginRoutes;
-export { teamsRoutes };
+export default LoginRouter;
+export { TeamsRouter };

@@ -1,7 +1,6 @@
 import * as express from 'express';
 import ErrorHandle from './middlewares/ErrorHandle';
-import LoginRouter from './routes/login.routes';
-import TeamsRouter from './routes/teams.routes';
+import LoginRouter, { TeamsRouter } from './routes';
 
 class App {
   public app: express.Express;

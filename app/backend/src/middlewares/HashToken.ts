@@ -5,8 +5,8 @@ import { IPayload } from '../interfaces';
 
 export default class HashToken {
   static hash(secret: string): string {
-    const salt = bcrypt.genSaltSync(10);
-    return bcrypt.hashSync(secret, salt);
+    // const salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(secret, 8);
   }
 
   static async token(payload: IPayload): Promise<string> {

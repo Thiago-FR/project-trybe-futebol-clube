@@ -6,7 +6,6 @@ export default class UserService {
     const user = await Users.findOne(
       {
         where: { [key]: value },
-        attributes: { exclude: ['password'] },
       },
     );
 

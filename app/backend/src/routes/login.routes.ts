@@ -9,10 +9,10 @@ export default class LoginRouter {
   }
 
   private routes() {
+    this.router.use(ValidateLogin.joi);
+    this.router.use(LoginAuth.auth);
     this.router.post(
       '/',
-      ValidateLogin.joi,
-      LoginAuth.auth,
       (req: Request, res: Response) => LoginController.login(req, res),
     );
   }

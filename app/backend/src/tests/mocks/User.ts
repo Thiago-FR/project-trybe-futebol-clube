@@ -3,15 +3,7 @@ const user = {
   username: 'user',
   role: 'user',
   email: 'email@email.com',
-}
-
-export const userString = {
-  "user": {
-    "id": 1,
-    "username": "user",
-    "role": "user",
-    "email": "email@email.com"
-  }
+  password: 'super_secreto'
 }
 
 export default user;

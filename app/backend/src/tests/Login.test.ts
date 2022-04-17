@@ -2,7 +2,7 @@ import * as sinon from 'sinon';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
-import user, { userString } from './mocks/User';
+import user from './mocks/User';
 import Users from '../database/models/Users';
 import UserService from '../services';
 
@@ -49,7 +49,7 @@ describe('Login', () => {
             expect(res).to.have.status(400);
             expect(res).to.be.json;
             expect(res.body).to.be.a('object');
-            expect(res.text).to.be.includes('\\"email\\" is required');
+            expect(res.text).to.be.includes('All fields must be filled');
             done();
          });
     });
@@ -101,13 +101,13 @@ describe('Login', () => {
             expect(res).to.have.status(400);
             expect(res).to.be.json;
             expect(res.body).to.be.a('object');
-            expect(res.text).to.be.includes('\\"password\\" is required');
+            expect(res.text).to.be.includes('All fields must be filled');
             done();
          });
     });
   });
 
-  describe('LoginAuth Fail', () => {
+  describe('LoginAuth Usuario Fail', () => {
 
     before(async () => {
       sinon
@@ -124,10 +124,43 @@ describe('Login', () => {
           .send(loginPerfect)
           .end((err, res) => {
             
-            expect(res).to.have.status(404);
+            expect(res).to.have.status(401);
             expect(res).to.be.json;
             expect(res.body).to.be.a('object');
-            expect(res.text).to.be.includes('Email invalid');
+            expect(res.text).to.be.includes('Incorrect email or password');
+            done();
+         });
+    })
+  });
+
+  describe('LoginAuth Password Fail', () => {
+    let token = '';
+
+    before(async () => {
+      sinon
+        .stub(UserService, "findOne")
+        .resolves(user);
+
+      token = await HashToken.token({ 
+        username: user.username,
+        role: user.role,
+        email: user.email, 
+      });
+    });
+  
+    after(()=>{
+      (UserService.findOne as sinon.SinonStub).restore();
+    })
+  
+    it('Test /login password invalido', (done) => {
+      chai.request(app).post('/login')
+          .send(loginPerfect)
+          .end((err, res) => {
+            
+            expect(res).to.have.status(401);
+            expect(res).to.be.json;
+            expect(res.body).to.be.a('object');
+            expect(res.text).to.be.includes('Incorrect email or password');
             done();
          });
     })
@@ -139,13 +172,16 @@ describe('Login', () => {
     before(async () => {
       sinon
         .stub(UserService, "findOne")
-        .resolves(user as Users);
-
+        .resolves({
+          ...user,
+          password: HashToken.hash('super_secreto'),
+        } as Users);
+       
       token = await HashToken.token({ 
         username: user.username,
         role: user.role,
         email: user.email, 
-      });
+      });      
     });
   
     after(()=>{

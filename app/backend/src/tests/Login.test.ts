@@ -181,7 +181,8 @@ describe('Login', () => {
         username: user.username,
         role: user.role,
         email: user.email, 
-      });      
+      });
+      
     });
   
     after(()=>{
@@ -201,4 +202,67 @@ describe('Login', () => {
          });
     })
   });
+});
+
+describe('Login/Validate', () => {
+  let token = ''
+
+  before(async () => {
+    sinon
+      .stub(UserService, "findOne")
+      .resolves({
+        ...user,
+        password: HashToken.hash('super_secreto'),
+      } as Users);
+     
+    token = await HashToken.token({ 
+      username: user.username,
+      role: user.role,
+      email: user.email, 
+    });      
+  });
+
+  after(()=>{
+    (UserService.findOne as sinon.SinonStub).restore();
+  })
+
+  it('Test /login/validate Token not found', (done) => {
+    chai.request(app).get('/login/validate')
+        .send(loginPerfect)
+        .end((err, res) => {
+          
+          expect(res).to.have.status(401);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a('object');
+          expect(res.text).to.be.include('Token not found');
+          done();
+       });
+  })
+
+  it('Test /login/validate Expired or invalid token', (done) => {
+    chai.request(app).get('/login/validate')
+        .send(loginPerfect)
+        .set('authorization', 'invalid_token')
+        .end((err, res) => {
+          
+          expect(res).to.have.status(401);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a('object');
+          expect(res.text).to.be.include('Expired or invalid token');
+          done();
+       });
+  })
+
+  it('Test /login/validate Valid Token', (done) => {
+    chai.request(app).get('/login/validate')
+        .send(loginPerfect)
+        .set('authorization', token)
+        .end((err, res) => {
+          
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.a('object');
+          expect(res.text).to.be.include(user.role);
+          done();
+       });
+  })
 });

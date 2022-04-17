@@ -12,9 +12,9 @@ export default class LoginAuth {
       return next({ statusCode: { code: 401, message: 'Incorrect email or password' } });
     }
 
-    // if (!bcrypt.compareSync(password, user.password as string)) {
-    //   return next({ statusCode: { code: 401, message: 'Incorrect email or password' } });
-    // }
+    if (!bcrypt.compareSync(password, user.password as string)) {
+      return next({ statusCode: { code: 401, message: 'Incorrect email or password' } });
+    }
 
     req.body.user = user;
 

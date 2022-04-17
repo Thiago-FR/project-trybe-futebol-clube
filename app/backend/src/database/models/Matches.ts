@@ -5,7 +5,16 @@ import Users from './Users';
 
 class Matches extends Model {
   public id: number;
-  public team_name: string;
+
+  public home_team: number;
+
+  public home_team_goals: number;
+
+  public away_team: number;
+
+  public away_team_goals: number;
+
+  public in_progress: boolean;
 }
 
 Matches.init({
@@ -16,19 +25,19 @@ Matches.init({
     type: INTEGER,
   },
   home_team: {
-    type: INTEGER
+    type: INTEGER,
   },
   home_team_goals: {
-    type: INTEGER
+    type: INTEGER,
   },
   away_team: {
-    type: INTEGER
+    type: INTEGER,
   },
   away_team_goals: {
-    type: INTEGER
+    type: INTEGER,
   },
   in_progress: {
-    type: BOOLEAN
+    type: BOOLEAN,
   },
 }, {
   // ... Outras configs
@@ -39,11 +48,11 @@ Matches.init({
 });
 
 /**
-  * `Workaround` para aplicar as associations em TS: 
+  * `Workaround` para aplicar as associations em TS:
   * Associations 1:N devem ficar em uma das instâncias de modelo
   * */
 
- Matches.belongsTo(Users, { foreignKey: 'id', as: 'user' });
+Matches.belongsTo(Users, { foreignKey: 'id', as: 'user' });
 // OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
 
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });

@@ -1,10 +1,11 @@
-import { Model, INTEGER, STRING} from 'sequelize';
+import { Model, INTEGER, STRING } from 'sequelize';
 import db from '.';
 import Matches from './Matches';
 // import OtherModel from './OtherModel';
 
 class Teams extends Model {
   public id: number;
+
   public team_name: string;
 }
 
@@ -18,7 +19,7 @@ Teams.init({
   team_name: {
     allowNull: false,
     type: STRING,
-  }
+  },
 }, {
   // ... Outras configs
   underscored: true,
@@ -28,7 +29,7 @@ Teams.init({
 });
 
 /**
-  * `Workaround` para aplicar as associations em TS: 
+  * `Workaround` para aplicar as associations em TS:
   * Associations 1:N devem ficar em uma das instâncias de modelo
   * */
 

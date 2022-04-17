@@ -1,14 +1,16 @@
 import * as express from 'express';
-import Teams from './database/models/Teams';
+import ErrorHandle from './middlewares/ErrorHandle';
+import LoginRouter from './routes/login.routes';
 
 class App {
   public app: express.Express;
-  // ...
+
+  private loginRoutes = new LoginRouter(express.Router());
 
   constructor() {
     this.app = express();
     this.config();
-    // ...
+    this.routes();
   }
 
   private config():void {
@@ -19,17 +21,23 @@ class App {
       next();
     };
 
+    this.app.use(express.json());
     this.app.use(accessControl);
-    this.app.get('/', async (_req, res) => {
-      res.status(200).json(await Teams.findAll())
-    });
   }
 
-  // ...
+  private routes() {
+    this.app.get('/', async (_req, res) => {
+      res.status(200).json({ OK: 'OK' });
+    });
+
+    this.app.use('/login', this.loginRoutes.router);
+
+    this.app.use(ErrorHandle.handleError);
+  }
+
   public start(PORT: string | number):void {
     this.app.listen(PORT, () => {
       console.log(`Ouvindo na porta ${PORT}`);
-      
     });
   }
 }

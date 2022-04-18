@@ -5,7 +5,7 @@ import { TeamsService } from '../services';
 import { app } from '../app';
 
 import user from './mocks/User';
-import team from './mocks/Team';
+import team, { teamsId_1 } from './mocks/Team';
 
 import HashToken from '../middlewares/HashToken';
 
@@ -20,6 +20,9 @@ describe('Teams', () => {
     sinon
       .stub(TeamsService, "findAll")
       .resolves(team as any);
+    sinon
+    .stub(TeamsService, "findByPk")
+    .resolves(teamsId_1 as any);
      
     token = await HashToken.token({
       id: user.id,
@@ -31,6 +34,7 @@ describe('Teams', () => {
 
   after(()=>{
     (TeamsService.findAll as sinon.SinonStub).restore();
+    (TeamsService.findByPk as sinon.SinonStub).restore();
   })
 
   it('Test /teams findAll', (done) => {
@@ -40,6 +44,17 @@ describe('Teams', () => {
           
           expect(res).to.have.status(200);
           expect(res.text).to.be.equal(JSON.stringify(team));
+          done();
+       });
+  })
+
+  it('Test /teams/:id findByPk', (done) => {
+    chai.request(app).get('/teams/1')
+        .set('authorization', token)
+        .end((err, res) => {
+          
+          expect(res).to.have.status(200);
+          expect(res.text).to.be.equal(JSON.stringify(teamsId_1));
           done();
        });
   })

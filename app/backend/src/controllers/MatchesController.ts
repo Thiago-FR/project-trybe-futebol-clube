@@ -2,8 +2,19 @@ import { Request, Response } from 'express';
 import { MatchesService } from '../services';
 
 export default class MatchesController {
-  static async findAll(_req: Request, res: Response): Promise<Response> {
+  static async findAll(req: Request, res: Response): Promise<Response> {
+    const { inProgress } = req.query;
+
+    if (inProgress) return MatchesController.findSearch(req, res);
+
     const matche = await MatchesService.findAll();
+
+    return res.status(200).json(matche);
+  }
+
+  static async findSearch(req: Request, res: Response): Promise<Response> {
+    const { inProgress } = req.query;
+    const matche = await MatchesService.findSearch(inProgress === 'true');
 
     return res.status(200).json(matche);
   }

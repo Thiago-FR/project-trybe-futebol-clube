@@ -14,6 +14,18 @@ export default class MatchesService {
     return team as IMatches[];
   }
 
+  static async findSearch(query: boolean): Promise<IMatches[]> {
+    const team = await Matches.findAll({
+      where: { inProgress: query },
+      include: [
+        { model: Teams, as: 'teamHome', attributes: { exclude: ['id'] } },
+        { model: Teams, as: 'teamAway', attributes: { exclude: ['id'] } },
+      ],
+    });
+
+    return team as IMatches[];
+  }
+
   // static async findByPk(id: number): Promise<ITeams> {
   //   const team = await Matches.findByPk(id);
 

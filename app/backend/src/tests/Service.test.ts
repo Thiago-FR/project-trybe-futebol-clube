@@ -70,7 +70,7 @@ describe('Test MatchersService', () => {
 
   after(()=>{
     (Matches.findAll as sinon.SinonStub).restore();
-    // (Teams.findByPk as sinon.SinonStub).restore();
+    // (Matches.findByPk as sinon.SinonStub).restore();
   })
 
   it('Test MatchersService findAll', async () => {

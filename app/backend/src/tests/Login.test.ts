@@ -11,6 +11,7 @@ import loginPerfect, {
   loginEmailFail,
   loginPasswordFail,
   loginPasswordVazio,
+  tokenInvalid,
 } from './mocks/Login';
 
 import HashToken from '../middlewares/HashToken';
@@ -262,6 +263,20 @@ describe('Login/Validate', () => {
           expect(res).to.be.json;
           expect(res.body).to.be.a('object');
           expect(res.text).to.be.include('Expired or invalid token');
+          done();
+       });
+  })
+
+  it('Test /login/validate invalid token', (done) => {
+    chai.request(app).get('/login/validate')
+        .send(loginPerfect)
+        .set('authorization', tokenInvalid)
+        .end((err, res) => {
+          
+          expect(res).to.have.status(401);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a('object');
+          expect(res.text).to.be.include('invalid token');
           done();
        });
   })

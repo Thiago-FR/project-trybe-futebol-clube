@@ -5,7 +5,7 @@ import { MatchesService } from '../services';
 import { app } from '../app';
 
 import user from './mocks/User';
-import matche from './mocks/Matche';
+import matche, { inProgressTrue } from './mocks/Matche';
 
 import HashToken from '../middlewares/HashToken';
 
@@ -20,6 +20,9 @@ describe('Matches', () => {
     sinon
       .stub(MatchesService, "findAll")
       .resolves(matche as any);
+    sinon
+    .stub(MatchesService, "findSearch")
+    .resolves(inProgressTrue as any);
     // sinon
     // .stub(MatchesService, "findByPk")
     // .resolves(matche as any);
@@ -34,11 +37,23 @@ describe('Matches', () => {
 
   after(()=>{
     (MatchesService.findAll as sinon.SinonStub).restore();
+    (MatchesService.findSearch as sinon.SinonStub).restore();
     // (MatchesService.findByPk as sinon.SinonStub).restore();
   })
 
-  it('Test /matches findAll', (done) => {
-    chai.request(app).get('/matches')
+  it('Test /matches findSearch', (done) => {
+    chai.request(app).get('/matches?inProgress=true')
+        .set('authorization', token)
+        .end((err, res) => {
+          
+          expect(res).to.have.status(200);
+          expect(res.text).to.be.equal(JSON.stringify(inProgressTrue));
+          done();
+       });
+  })
+
+  it('Test /matches findSearch', (done) => {
+    chai.request(app).get('/matches?inProgress')
         .set('authorization', token)
         .end((err, res) => {
           

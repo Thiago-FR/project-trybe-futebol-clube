@@ -79,6 +79,12 @@ describe('Test MatchersService', () => {
     expect(matches).to.equal(matche);
   })
 
+  it('Test MatchersService findSearch', async () => {
+    const matches = await MatchesService.findSearch(true);
+
+    expect(matches).to.equal(matche);
+  })
+
   // it('Test TeamService findByPk', async () => {
   //   const teams = await TeamsService.findByPk(1);
 

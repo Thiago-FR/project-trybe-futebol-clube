@@ -1,19 +1,21 @@
 import * as Joi from 'joi';
 import { NextFunction, Request, Response } from 'express';
 
+const incorrect = 'Incorrect email or password';
+
 export default class ValidateLogin {
   static joi(req: Request, _res: Response, next: NextFunction) {
     const { email, password } = req.body;
     const { error } = Joi.object({
       email: Joi.string().email().required().messages({
         'any.required': '400|All fields must be filled',
-        'string.empty': '400|"email" is not allowed to be empty',
-        'string.email': '400|"email" must be a valid email',
+        'string.empty': `401|${incorrect}`,
+        'string.email': `401|${incorrect}`,
       }),
       password: Joi.string().min(6).required().messages({
         'any.required': '400|All fields must be filled',
-        'string.empty': '400|"password" is not allowed to be empty',
-        'string.min': '422|Password must be longer than 6 characters',
+        'string.empty': `401|${incorrect}`,
+        'string.min': `401|${incorrect}`,
       }),
     }).validate({ email, password });
 

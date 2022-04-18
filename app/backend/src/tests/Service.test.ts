@@ -2,12 +2,14 @@ import * as sinon from 'sinon';
 import * as chai from 'chai';
 
 import user from './mocks/User';
+import team, { teamsId_1 } from './mocks/Team';
 import Users from '../database/models/Users';
-import UserService from '../services';
+import UserService, { TeamsService } from '../services';
+import Teams from '../database/models/Teams';
 
 const { expect } = chai;
 
-describe('Test Service', () => {
+describe('Test UserService', () => {
 
   before(async () => {
     sinon
@@ -19,9 +21,37 @@ describe('Test Service', () => {
     (Users.findOne as sinon.SinonStub).restore();
   })
 
-  it('Test UserService', async () => {
+  it('Test UserService findOne', async () => {
     const users = await UserService.findOne('email', 'email');
 
     expect(users).to.equal(user);
+  })
+});
+
+describe('Test TeamService', () => {
+  before(async () => {
+    sinon
+      .stub(Teams, "findAll")
+      .resolves(team as any);
+    sinon
+    .stub(Teams, "findByPk")
+    .resolves(teamsId_1 as any);
+  });
+
+  after(()=>{
+    (Teams.findAll as sinon.SinonStub).restore();
+    (Teams.findByPk as sinon.SinonStub).restore();
+  })
+
+  it('Test TeamService findAll', async () => {
+    const teams = await TeamsService.findAll();
+
+    expect(teams).to.equal(team);
+  })
+
+  it('Test TeamService findByPk', async () => {
+    const teams = await TeamsService.findByPk(1);
+
+    expect(teams).to.equal(teamsId_1);
   })
 });

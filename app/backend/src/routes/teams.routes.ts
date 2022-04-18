@@ -9,9 +9,13 @@ export default class TeamsRouter {
 
   private routes() {
     this.router.use(Auth.auth);
-    this.router.post(
+    this.router.get(
       '/',
       (req: Request, res: Response) => TeamsController.findAll(req, res),
+    );
+    this.router.get(
+      '/:id',
+      (req: Request, res: Response) => TeamsController.findByPk(req, res),
     );
   }
 }

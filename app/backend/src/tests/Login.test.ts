@@ -12,8 +12,8 @@ import loginPerfect, {
   loginPasswordFail,
   loginPasswordVazio,
 } from './mocks/Login';
+
 import HashToken from '../middlewares/HashToken';
-import { use } from 'chai';
 
 chai.use(chaiHttp);
 
@@ -34,10 +34,10 @@ describe('Login', () => {
           .send(loginEmailFail)
           .end((err, res) => {
             
-            expect(res).to.have.status(400);
+            expect(res).to.have.status(401);
             expect(res).to.be.json;
             expect(res.body).to.be.a('object');
-            expect(res.text).to.be.includes('\\"email\\" must be a valid email');
+            expect(res.text).to.be.includes('Incorrect email or password');
             done();
          });
     });
@@ -60,10 +60,10 @@ describe('Login', () => {
           .send({email: ''})
           .end((err, res) => {
             
-            expect(res).to.have.status(400);
+            expect(res).to.have.status(401);
             expect(res).to.be.json;
             expect(res.body).to.be.a('object');
-            expect(res.text).to.be.includes('\\"email\\" is not allowed to be empty');
+            expect(res.text).to.be.includes('Incorrect email or password');
             done();
          });
     });
@@ -73,10 +73,10 @@ describe('Login', () => {
           .send(loginPasswordFail)
           .end((err, res) => {
             
-            expect(res).to.have.status(422);
+            expect(res).to.have.status(401);
             expect(res).to.be.json;
             expect(res.body).to.be.a('object');
-            expect(res.text).to.be.includes('Password must be longer than 6 characters');
+            expect(res.text).to.be.includes('Incorrect email or password');
             done();
          });
     });
@@ -86,10 +86,10 @@ describe('Login', () => {
           .send(loginPasswordVazio)
           .end((err, res) => {
             
-            expect(res).to.have.status(400);
+            expect(res).to.have.status(401);
             expect(res).to.be.json;
             expect(res.body).to.be.a('object');
-            expect(res.text).to.be.includes('\\"password\\" is not allowed to be empty');
+            expect(res.text).to.be.includes('Incorrect email or password');
             done();
          });
     });
@@ -201,6 +201,15 @@ describe('Login', () => {
             expect(res).to.be.json;
             expect(res.body).to.be.a('object');
             expect(res.text).to.be.include(token);
+            expect(res.text).to.be.equal(JSON.stringify({
+              user: {
+                id: user.id,
+                username: user.username,
+                role: user.role,
+                email: user.email
+              }, 
+              token
+            }));
             done();
          });
     })

@@ -3,9 +3,11 @@ import * as chai from 'chai';
 
 import user from './mocks/User';
 import team, { teamsId_1 } from './mocks/Team';
+import matche from './mocks/Matche';
 import Users from '../database/models/Users';
-import UserService, { TeamsService } from '../services';
+import UserService, { MatchesService, TeamsService } from '../services';
 import Teams from '../database/models/Teams';
+import Matches from '../database/models/Matches';
 
 const { expect } = chai;
 
@@ -54,4 +56,32 @@ describe('Test TeamService', () => {
 
     expect(teams).to.equal(teamsId_1);
   })
+});
+
+describe('Test MatchersService', () => {
+  before(async () => {
+    sinon
+      .stub(Matches, "findAll")
+      .resolves(matche as any);
+    // sinon
+    // .stub(Matches, "findByPk")
+    // .resolves(matche as any);
+  });
+
+  after(()=>{
+    (Matches.findAll as sinon.SinonStub).restore();
+    // (Teams.findByPk as sinon.SinonStub).restore();
+  })
+
+  it('Test MatchersService findAll', async () => {
+    const matches = await MatchesService.findAll();
+
+    expect(matches).to.equal(matche);
+  })
+
+  // it('Test TeamService findByPk', async () => {
+  //   const teams = await TeamsService.findByPk(1);
+
+  //   expect(teams).to.equal(teamsId_1);
+  // })
 });

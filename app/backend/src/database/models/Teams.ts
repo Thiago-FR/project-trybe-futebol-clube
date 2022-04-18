@@ -1,12 +1,11 @@
 import { Model, INTEGER, STRING } from 'sequelize';
 import db from '.';
-import Matches from './Matches';
 // import OtherModel from './OtherModel';
 
 class Teams extends Model {
   public id: number;
 
-  public team_name: string;
+  public teamName: string;
 }
 
 Teams.init({
@@ -36,7 +35,6 @@ Teams.init({
 // OtherModel.belongsTo(Example, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
 // OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
 
-Teams.hasMany(Matches, { foreignKey: 'id', as: 'matche' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
 export default Teams;

@@ -7,6 +7,7 @@ import Auth from '../middlewares/Auth';
 export default class LoginRouter {
   constructor(public router: Router) {
     this.routes();
+    this.routesValidate();
   }
 
   private routes() {
@@ -16,6 +17,9 @@ export default class LoginRouter {
       '/',
       (req: Request, res: Response) => LoginController.login(req, res),
     );
+  }
+
+  private routesValidate() {
     this.router.use(Auth.auth);
     this.router.get(
       '/validate',

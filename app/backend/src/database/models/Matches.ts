@@ -1,20 +1,20 @@
 import { Model, INTEGER, BOOLEAN } from 'sequelize';
 import db from '.';
-import Users from './Users';
+import Teams from './Teams';
 // import OtherModel from './OtherModel';
 
 class Matches extends Model {
   public id: number;
 
-  public home_team: number;
+  public homeTeam: number;
 
-  public home_team_goals: number;
+  public homeTeamGoals: number;
 
-  public away_team: number;
+  public awayTeam: number;
 
-  public away_team_goals: number;
+  public awayTeamGoals: number;
 
-  public in_progress: boolean;
+  public inProgress: boolean;
 }
 
 Matches.init({
@@ -24,19 +24,19 @@ Matches.init({
     primaryKey: true,
     type: INTEGER,
   },
-  home_team: {
+  homeTeam: {
     type: INTEGER,
   },
-  home_team_goals: {
+  homeTeamGoals: {
     type: INTEGER,
   },
-  away_team: {
+  awayTeam: {
     type: INTEGER,
   },
-  away_team_goals: {
+  awayTeamGoals: {
     type: INTEGER,
   },
-  in_progress: {
+  inProgress: {
     type: BOOLEAN,
   },
 }, {
@@ -52,9 +52,16 @@ Matches.init({
   * Associations 1:N devem ficar em uma das instâncias de modelo
   * */
 
-Matches.belongsTo(Users, { foreignKey: 'id', as: 'user' });
+Matches.belongsTo(Teams, { foreignKey: 'homeTeam', as: 'teamHome' });
+Matches.belongsTo(Teams, { foreignKey: 'awayTeam', as: 'teamAway' });
+
+// Matches.belongsTo(Teams, { foreignKey: 'homeTeam', as: 'homeTeams' });
+// Matches.belongsTo(Teams, { foreignKey: 'awayTeam', as: 'awayTeams' });
 // OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
 
+// Teams.hasMany(Matches, { foreignKey: 'id', as: 'matche' });
+Teams.hasMany(Matches, { foreignKey: 'homeTeam', as: 'homeTeams' });
+Teams.hasMany(Matches, { foreignKey: 'awayTeam', as: 'awayTeams' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 

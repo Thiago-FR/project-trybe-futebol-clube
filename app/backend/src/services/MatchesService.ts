@@ -1,6 +1,7 @@
 import Teams from '../database/models/Teams';
 import Matches from '../database/models/Matches';
 import { IMatches } from '../interfaces';
+import TeamsService from './TeamsService';
 
 export default class MatchesService {
   static async findAll(): Promise<IMatches[]> {
@@ -26,7 +27,14 @@ export default class MatchesService {
     return matche as IMatches[];
   }
 
-  static async create(params: IMatches): Promise<IMatches> {
+  static async create(params: IMatches): Promise<IMatches | undefined> {
+    const { homeTeam, awayTeam } = params;
+
+    const home = await TeamsService.findByPk(homeTeam);
+    const away = await TeamsService.findByPk(awayTeam);
+
+    if (!home || !away) return undefined;
+
     const matche = await Matches.create(params);
 
     return matche as IMatches;

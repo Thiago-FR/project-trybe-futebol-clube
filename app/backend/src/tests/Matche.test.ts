@@ -1,13 +1,14 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
-import { MatchesService } from '../services';
+import { MatchesService, TeamsService } from '../services';
 import { app } from '../app';
 
 import user from './mocks/User';
 import matche, { inProgressTrue, matcheCreate } from './mocks/Matche';
 
 import HashToken from '../middlewares/HashToken';
+import { teamsId_1 } from './mocks/Team';
 
 chai.use(chaiHttp);
 
@@ -49,7 +50,7 @@ describe('Matches', () => {
     // (MatchesService.findByPk as sinon.SinonStub).restore();
   })
 
-  it('Test /matches findSearch', (done) => {
+  it('Test /matches findSearch true', (done) => {
     chai.request(app).get('/matches?inProgress=true')
         .set('authorization', token)
         .end((err, res) => {
@@ -71,7 +72,7 @@ describe('Matches', () => {
        });
   })
 
-  it('Test /matches create', (done) => {
+  it('Test /matches create OK', (done) => {
     chai.request(app).post('/matches')
         .set('authorization', token)
         .send(matcheCreate)
@@ -104,4 +105,38 @@ describe('Matches', () => {
   //         done();
   //      });
   // })
+});
+
+describe('Matches Fail', () => {
+  let token = '';
+  before(async () => {
+    sinon
+      .stub(TeamsService, "findByPk")
+      .resolves(undefined);
+
+    token = await HashToken.token({
+      id: user.id,
+      username: user.username,
+      role: user.role,
+      email: user.email, 
+    });
+  });
+
+  after(()=>{
+    (TeamsService.findByPk as sinon.SinonStub).restore();
+  })
+
+  it('Test /matches create Fail', (done) => {
+    chai.request(app).post('/matches')
+        .set('authorization', token)
+        .send(matcheCreate)
+        .end((err, res) => {
+          
+          expect(res).to.have.status(404);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a('object');
+          expect(res.text).to.be.include('Team not found');
+          done();
+       });
+  })
 });

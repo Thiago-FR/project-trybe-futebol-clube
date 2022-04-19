@@ -77,6 +77,8 @@ describe('Test MatchersService', () => {
   after(()=>{
     (Matches.findAll as sinon.SinonStub).restore();
     (Matches.create as sinon.SinonStub).restore();
+    
+    (TeamsService.findByPk as sinon.SinonStub).restore();
     // (Matches.findByPk as sinon.SinonStub).restore();
   })
 
@@ -92,7 +94,11 @@ describe('Test MatchersService', () => {
     expect(matches).to.equal(matche);
   })
 
-  it('Test MatchersService create', async () => {
+  it('Test MatchersService create OK', async () => {
+    sinon
+      .stub(TeamsService, "findByPk")
+      .resolves(teamsId_1 as any);
+
     const matches = await MatchesService.create(matcheCreate);
 
     expect(matches).to.equal(matcheCreate);

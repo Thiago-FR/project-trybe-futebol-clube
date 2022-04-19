@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { MatchesService } from '../services';
 
 export default class MatchesController {
@@ -20,12 +20,20 @@ export default class MatchesController {
     return res.status(200).json(matche);
   }
 
-  static async create(req: Request, res: Response): Promise<Response> {
+  static async create(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
     const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress } = req.body;
 
     const matche = await MatchesService.create(
       { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress },
     );
+
+    if (!matche) {
+      return next({ statusCode: { code: 404, message: 'Team not found' } });
+    }
 
     return res.status(200).json(matche);
   }

@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { MatchesController } from '../controllers';
 import Auth from '../middlewares/Auth';
 
@@ -15,7 +15,7 @@ export default class MatchesRouter {
     );
     this.router.post(
       '/',
-      (req: Request, res: Response) => MatchesController.create(req, res),
+      (req: Request, res: Response, next: NextFunction) => MatchesController.create(req, res, next),
     );
     this.router.patch(
       '/:id/finish',

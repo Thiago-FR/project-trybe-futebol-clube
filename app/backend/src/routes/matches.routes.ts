@@ -17,6 +17,10 @@ export default class MatchesRouter {
       '/',
       (req: Request, res: Response) => MatchesController.create(req, res),
     );
+    this.router.patch(
+      '/:id/finish',
+      (req: Request, res: Response) => MatchesController.updateMatche(req, res),
+    );
     // this.router.get(
     //   '/:id',
     //   (req: Request, res: Response) => TeamsController.findByPk(req, res),

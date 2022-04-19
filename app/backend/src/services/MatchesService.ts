@@ -32,6 +32,10 @@ export default class MatchesService {
     return matche as IMatches;
   }
 
+  static async update(params: any, id: number): Promise<void> {
+    await Matches.update(params, { where: { id } });
+  }
+
   // static async findByPk(id: number): Promise<ITeams> {
   //   const team = await Matches.findByPk(id);
 

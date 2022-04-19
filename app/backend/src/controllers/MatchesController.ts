@@ -30,6 +30,14 @@ export default class MatchesController {
     return res.status(200).json(matche);
   }
 
+  static async updateMatche(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+
+    await MatchesService.update({ inProgress: false }, Number(id));
+
+    return res.status(200).end();
+  }
+
   // static async findByPk(req: Request, res: Response): Promise<Response> {
   //   const { id } = req.params;
   //   const user = await TeamsService.findByPk(Number(id));

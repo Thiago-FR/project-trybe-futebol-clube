@@ -78,4 +78,18 @@ export const matcheEqual = {
   "inProgress": true,
 }
 
+export const matcheUpdate = {
+  "homeTeamGoals": 35,
+  "awayTeamGoals": 35
+}
+
+export const matcheReturnUpdate = {
+  "id": 1,
+  "homeTeam": 16,
+  "homeTeamGoals": 35,
+  "awayTeam": 8,
+  "awayTeamGoals": 35,
+  "inProgress": true,
+}
+
 export default matche;

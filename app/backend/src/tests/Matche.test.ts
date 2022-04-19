@@ -5,7 +5,13 @@ import { MatchesService, TeamsService } from '../services';
 import { app } from '../app';
 
 import user from './mocks/User';
-import matche, { inProgressTrue, matcheCreate, matcheEqual } from './mocks/Matche';
+import matche, {
+  inProgressTrue,
+  matcheCreate,
+  matcheEqual,
+  matcheUpdate,
+  matcheReturnUpdate,
+} from './mocks/Matche';
 
 import HashToken from '../middlewares/HashToken';
 
@@ -86,6 +92,17 @@ describe('Matches', () => {
   it('Test /matches/:id/finish update', (done) => {
     chai.request(app).patch('/matches/1/finish')
         .set('authorization', token)
+        .end((err, res) => {
+          
+          expect(res).to.have.status(200);
+          done();
+       });
+  })
+
+  it('Test /matches update id OK', (done) => {
+    chai.request(app).patch('/matches/1')
+        .set('authorization', token)
+        .send(matcheUpdate)
         .end((err, res) => {
           
           expect(res).to.have.status(200);

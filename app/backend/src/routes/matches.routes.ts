@@ -19,6 +19,10 @@ export default class MatchesRouter {
     );
     this.router.patch(
       '/:id/finish',
+      (req: Request, res: Response) => MatchesController.updateMatcheInProgress(req, res),
+    );
+    this.router.patch(
+      '/:id',
       (req: Request, res: Response) => MatchesController.updateMatche(req, res),
     );
     // this.router.get(

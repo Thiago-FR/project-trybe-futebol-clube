@@ -5,7 +5,7 @@ import { MatchesService } from '../services';
 import { app } from '../app';
 
 import user from './mocks/User';
-import matche, { inProgressTrue } from './mocks/Matche';
+import matche, { inProgressTrue, matcheCreate } from './mocks/Matche';
 
 import HashToken from '../middlewares/HashToken';
 
@@ -23,6 +23,9 @@ describe('Matches', () => {
     sinon
     .stub(MatchesService, "findSearch")
     .resolves(inProgressTrue as any);
+    sinon
+      .stub(MatchesService, "create")
+      .resolves(matcheCreate as any);
     // sinon
     // .stub(MatchesService, "findByPk")
     // .resolves(matche as any);
@@ -38,6 +41,7 @@ describe('Matches', () => {
   after(()=>{
     (MatchesService.findAll as sinon.SinonStub).restore();
     (MatchesService.findSearch as sinon.SinonStub).restore();
+    (MatchesService.create as sinon.SinonStub).restore();
     // (MatchesService.findByPk as sinon.SinonStub).restore();
   })
 
@@ -59,6 +63,18 @@ describe('Matches', () => {
           
           expect(res).to.have.status(200);
           expect(res.text).to.be.equal(JSON.stringify(matche));
+          done();
+       });
+  })
+
+  it('Test /matches create', (done) => {
+    chai.request(app).post('/matches')
+        .set('authorization', token)
+        .send(matcheCreate)
+        .end((err, res) => {
+          
+          expect(res).to.have.status(200);
+          expect(res.text).to.be.equal(JSON.stringify(matcheCreate));
           done();
        });
   })

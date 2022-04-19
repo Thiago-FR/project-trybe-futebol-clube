@@ -4,18 +4,18 @@ import { IMatches } from '../interfaces';
 
 export default class MatchesService {
   static async findAll(): Promise<IMatches[]> {
-    const team = await Matches.findAll({
+    const matche = await Matches.findAll({
       include: [
         { model: Teams, as: 'teamHome', attributes: { exclude: ['id'] } },
         { model: Teams, as: 'teamAway', attributes: { exclude: ['id'] } },
       ],
     });
 
-    return team as IMatches[];
+    return matche as IMatches[];
   }
 
   static async findSearch(query: boolean): Promise<IMatches[]> {
-    const team = await Matches.findAll({
+    const matche = await Matches.findAll({
       where: { inProgress: query },
       include: [
         { model: Teams, as: 'teamHome', attributes: { exclude: ['id'] } },
@@ -23,7 +23,13 @@ export default class MatchesService {
       ],
     });
 
-    return team as IMatches[];
+    return matche as IMatches[];
+  }
+
+  static async create(params: IMatches): Promise<IMatches> {
+    const matche = await Matches.create(params);
+
+    return matche as IMatches;
   }
 
   // static async findByPk(id: number): Promise<ITeams> {

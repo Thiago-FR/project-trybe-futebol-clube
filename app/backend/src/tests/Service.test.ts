@@ -3,7 +3,7 @@ import * as chai from 'chai';
 
 import user from './mocks/User';
 import team, { teamsId_1 } from './mocks/Team';
-import matche from './mocks/Matche';
+import matche, { matcheCreate } from './mocks/Matche';
 import Users from '../database/models/Users';
 import UserService, { MatchesService, TeamsService } from '../services';
 import Teams from '../database/models/Teams';
@@ -63,6 +63,9 @@ describe('Test MatchersService', () => {
     sinon
       .stub(Matches, "findAll")
       .resolves(matche as any);
+    sinon
+      .stub(Matches, "create")
+      .resolves(matcheCreate as any);
     // sinon
     // .stub(Matches, "findByPk")
     // .resolves(matche as any);
@@ -70,6 +73,7 @@ describe('Test MatchersService', () => {
 
   after(()=>{
     (Matches.findAll as sinon.SinonStub).restore();
+    (Matches.create as sinon.SinonStub).restore();
     // (Matches.findByPk as sinon.SinonStub).restore();
   })
 
@@ -83,6 +87,12 @@ describe('Test MatchersService', () => {
     const matches = await MatchesService.findSearch(true);
 
     expect(matches).to.equal(matche);
+  })
+
+  it('Test MatchersService create', async () => {
+    const matches = await MatchesService.create(matcheCreate);
+
+    expect(matches).to.equal(matcheCreate);
   })
 
   // it('Test TeamService findByPk', async () => {

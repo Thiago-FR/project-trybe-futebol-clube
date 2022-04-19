@@ -13,6 +13,10 @@ export default class MatchesRouter {
       '/',
       (req: Request, res: Response) => MatchesController.findAll(req, res),
     );
+    this.router.post(
+      '/',
+      (req: Request, res: Response) => MatchesController.create(req, res),
+    );
     // this.router.get(
     //   '/:id',
     //   (req: Request, res: Response) => TeamsController.findByPk(req, res),

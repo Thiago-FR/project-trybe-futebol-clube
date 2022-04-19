@@ -5,10 +5,9 @@ import { MatchesService, TeamsService } from '../services';
 import { app } from '../app';
 
 import user from './mocks/User';
-import matche, { inProgressTrue, matcheCreate } from './mocks/Matche';
+import matche, { inProgressTrue, matcheCreate, matcheEqual } from './mocks/Matche';
 
 import HashToken from '../middlewares/HashToken';
-import { teamsId_1 } from './mocks/Team';
 
 chai.use(chaiHttp);
 
@@ -136,6 +135,20 @@ describe('Matches Fail', () => {
           expect(res).to.be.json;
           expect(res.body).to.be.a('object');
           expect(res.text).to.be.include('Team not found');
+          done();
+       });
+  })
+
+  it('Test /matches teams Equals Fail', (done) => {
+    chai.request(app).post('/matches')
+        .set('authorization', token)
+        .send(matcheEqual)
+        .end((err, res) => {
+          
+          expect(res).to.have.status(409);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a('object');
+          expect(res.text).to.be.include('It is not possible to create a match with two equal teams');
           done();
        });
   })

@@ -69,4 +69,13 @@ export const matcheCreate = {
   "inProgress": true,
 }
 
+export const matcheEqual = {
+  "id": 1,
+  "homeTeam": 16,
+  "homeTeamGoals": 2,
+  "awayTeam": 16,
+  "awayTeamGoals": 2,
+  "inProgress": true,
+}
+
 export default matche;

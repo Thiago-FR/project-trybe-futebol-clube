@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { IStatusCode } from '../interfaces';
 import { MatchesService } from '../services';
 
 export default class MatchesController {
@@ -31,11 +32,10 @@ export default class MatchesController {
       { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress },
     );
 
-    if (!matche) {
-      return next({ statusCode: { code: 404, message: 'Team not found' } });
-    }
-
-    return res.status(200).json(matche);
+    const { statusCode } = matche as IStatusCode;
+    return typeof (statusCode) !== 'undefined'
+      ? next(matche)
+      : res.status(200).json(matche);
   }
 
   static async updateMatche(req: Request, res: Response): Promise<void> {

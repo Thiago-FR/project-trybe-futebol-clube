@@ -1,6 +1,6 @@
 import Teams from '../database/models/Teams';
 import Matches from '../database/models/Matches';
-import { IMatches } from '../interfaces';
+import { IMatches, IStatusCode } from '../interfaces';
 import TeamsService from './TeamsService';
 
 export default class MatchesService {
@@ -27,13 +27,18 @@ export default class MatchesService {
     return matche as IMatches[];
   }
 
-  static async create(params: IMatches): Promise<IMatches | undefined> {
+  static async create(params: IMatches): Promise<IMatches | IStatusCode> {
     const { homeTeam, awayTeam } = params;
+
+    if (homeTeam === awayTeam) {
+      return { statusCode:
+        { code: 409, message: 'It is not possible to create a match with two equal teams' } };
+    }
 
     const home = await TeamsService.findByPk(homeTeam);
     const away = await TeamsService.findByPk(awayTeam);
 
-    if (!home || !away) return undefined;
+    if (!home || !away) return { statusCode: { code: 404, message: 'Team not found' } };
 
     const matche = await Matches.create(params);
 

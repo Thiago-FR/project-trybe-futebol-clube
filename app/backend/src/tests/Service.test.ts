@@ -66,6 +66,9 @@ describe('Test MatchersService', () => {
     sinon
       .stub(Matches, "create")
       .resolves(matcheCreate as any);
+    sinon
+      .stub(Matches, "update")
+      .resolves(undefined);
     // sinon
     // .stub(Matches, "findByPk")
     // .resolves(matche as any);
@@ -93,6 +96,12 @@ describe('Test MatchersService', () => {
     const matches = await MatchesService.create(matcheCreate);
 
     expect(matches).to.equal(matcheCreate);
+  })
+
+  it('Test MatchersService update', async () => {
+    const matches = await MatchesService.update({}, 1);
+
+    expect(matches).to.equal(undefined);
   })
 
   // it('Test TeamService findByPk', async () => {

@@ -26,6 +26,9 @@ describe('Matches', () => {
     sinon
       .stub(MatchesService, "create")
       .resolves(matcheCreate as any);
+    sinon
+      .stub(MatchesService, "update")
+      .resolves(undefined);
     // sinon
     // .stub(MatchesService, "findByPk")
     // .resolves(matche as any);
@@ -42,6 +45,7 @@ describe('Matches', () => {
     (MatchesService.findAll as sinon.SinonStub).restore();
     (MatchesService.findSearch as sinon.SinonStub).restore();
     (MatchesService.create as sinon.SinonStub).restore();
+    (MatchesService.update as sinon.SinonStub).restore();
     // (MatchesService.findByPk as sinon.SinonStub).restore();
   })
 
@@ -78,6 +82,17 @@ describe('Matches', () => {
           done();
        });
   })
+
+  it('Test /matches/:id/finish update', (done) => {
+    chai.request(app).patch('/matches/1/finish')
+        .set('authorization', token)
+        .end((err, res) => {
+          
+          expect(res).to.have.status(200);
+          done();
+       });
+  })
+
 
   // it('Test /matches/:id findByPk', (done) => {
   //   chai.request(app).get('/teams/1')

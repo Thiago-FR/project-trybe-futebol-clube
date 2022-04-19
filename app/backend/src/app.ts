@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as cors from 'cors';
 import ErrorHandle from './middlewares/ErrorHandle';
 import LoginRouter, { MatchesRouter, TeamsRouter } from './routes';
 
@@ -27,6 +28,7 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
+    this.app.use(cors());
   }
 
   private routes() {

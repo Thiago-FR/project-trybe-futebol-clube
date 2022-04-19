@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
-// import * as fs from 'fs/promises';
+import * as fs from 'fs/promises';
 import * as JWT from 'jsonwebtoken';
 import IUser from '../interfaces';
 
 export default class Auth {
   static async auth(req: Request, _res: Response, next: NextFunction) {
     const { authorization } = req.headers;
-    // const JWT_SECRET = await fs.readFile('../../jwt.evaluation.key', 'utf8');
-    const JWT_SECRET = 'minha-senha';
+    const JWT_SECRET = await fs.readFile('jwt.evaluation.key', 'utf8');
 
     if (!authorization) {
       return next({ statusCode: {

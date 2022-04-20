@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from 'express';
-import { IStatusCode } from '../interfaces';
+import { Request, Response } from 'express';
+// import { IStatusCode } from '../interfaces';
 import { LeaderboardService } from '../services';
 
 export default class LeaderboardController {

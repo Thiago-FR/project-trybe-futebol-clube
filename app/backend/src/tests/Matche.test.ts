@@ -83,7 +83,7 @@ describe('Matches', () => {
         .send(matcheCreate)
         .end((err, res) => {
           
-          expect(res).to.have.status(200);
+          expect(res).to.have.status(201);
           expect(res.text).to.be.equal(JSON.stringify(matcheCreate));
           done();
        });
@@ -151,7 +151,7 @@ describe('Matches Fail', () => {
           expect(res).to.have.status(404);
           expect(res).to.be.json;
           expect(res.body).to.be.a('object');
-          expect(res.text).to.be.include('Team not found');
+          expect(res.text).to.be.include('There is no team with such id!');
           done();
        });
   })
@@ -162,7 +162,7 @@ describe('Matches Fail', () => {
         .send(matcheEqual)
         .end((err, res) => {
           
-          expect(res).to.have.status(409);
+          expect(res).to.have.status(401);
           expect(res).to.be.json;
           expect(res.body).to.be.a('object');
           expect(res.text).to.be.include('It is not possible to create a match with two equal teams');

@@ -9,10 +9,6 @@ export default class MatchesRouter {
   }
 
   private routes() {
-    this.router.get(
-      '/',
-      (req: Request, res: Response) => MatchesController.findAll(req, res),
-    );
     this.router.patch(
       '/:id/finish',
       (req: Request, res: Response) => MatchesController.updateMatcheInProgress(req, res),
@@ -20,6 +16,10 @@ export default class MatchesRouter {
     this.router.patch(
       '/:id',
       (req: Request, res: Response) => MatchesController.updateMatche(req, res),
+    );
+    this.router.get(
+      '/',
+      (req: Request, res: Response) => MatchesController.findAll(req, res),
     );
     // this.router.get(
     //   '/:id',

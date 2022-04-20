@@ -32,13 +32,15 @@ export default class MatchesService {
 
     if (homeTeam === awayTeam) {
       return { statusCode:
-        { code: 409, message: 'It is not possible to create a match with two equal teams' } };
+        { code: 401, message: 'It is not possible to create a match with two equal teams' } };
     }
 
     const home = await TeamsService.findByPk(homeTeam);
     const away = await TeamsService.findByPk(awayTeam);
 
-    if (!home || !away) return { statusCode: { code: 404, message: 'Team not found' } };
+    if (!home || !away) {
+      return { statusCode: { code: 404, message: 'There is no team with such id!' } };
+    }
 
     const matche = await Matches.create(params);
 

@@ -10,16 +10,16 @@ export default class LoginRouter {
   }
 
   private routes() {
+    this.router.get(
+      '/validate',
+      Auth.auth,
+      (req: Request, res: Response) => LoginController.validade(req, res),
+    );
     this.router.post(
       '/',
       ValidateLogin.joi,
       LoginAuth.auth,
       (req: Request, res: Response) => LoginController.login(req, res),
-    );
-    this.router.get(
-      '/validate',
-      Auth.auth,
-      (req: Request, res: Response) => LoginController.validade(req, res),
     );
   }
 }

@@ -35,15 +35,15 @@ export default class MatchesController {
     const { statusCode } = matche as IStatusCode;
     return typeof (statusCode) !== 'undefined'
       ? next(matche)
-      : res.status(200).json(matche);
+      : res.status(201).json(matche);
   }
 
-  static async updateMatcheInProgress(req: Request, res: Response): Promise<void> {
+  static async updateMatcheInProgress(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
     await MatchesService.update({ inProgress: false }, Number(id));
 
-    return res.status(200).end();
+    return res.status(200).send('Finalizado');
   }
 
   static async updateMatche(req: Request, res: Response): Promise<void> {

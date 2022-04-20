@@ -62,7 +62,7 @@ describe(getRequirement(23), () => {
   });
 });
 
-describe(getRequirement(24), () => {
+describe.only(getRequirement(24), () => {
   it('Será validado que ao finalizar uma partida é alterado no banco de dados e na página', async () => {
 
     const dadosInsert = {
@@ -75,8 +75,7 @@ describe(getRequirement(24), () => {
     await insertFinished(page, dadosInsert)
 
     const rows = await database.query(select.all.matches, { type: 'SELECT' });
-    const [matchInserted] = normalize([lastInsert(rows)])
-
+    const [matchInserted] = normalize([lastInsert(rows)]);
     expect(matchInserted.homeTeam).toBe(teams[3].id);
     expect(matchInserted.awayTeam).toBe(teams[8].id);
     expect(matchInserted.inProgress).toBe(0);
@@ -88,7 +87,6 @@ describe(getRequirement(24), () => {
     const homeTeam = await page.$eval(pageMatches.homeTeam(49), (el) => el.innerText);
     const awayTeam = await page.$eval(pageMatches.awayTeam(49), (el) => el.innerText);
     const matchStatus = await page.$eval(pageMatches.matchStatus(49), (el) => el.innerText);
-
     expect(homeTeam).toBe(teams[3].teamName);
     expect(awayTeam).toBe(teams[8].teamName);
     expect(matchStatus).toBe('Finalizado');

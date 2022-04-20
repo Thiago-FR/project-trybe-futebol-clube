@@ -69,7 +69,7 @@ describe(getRequirement(5), () => {
     await page.waitForTimeout(puppeteerDefs.pause.brief);
 
     expect(await page.url()).toEqual(URL(containerPorts.frontend).URL_PAGE_MATCHES);
-  });
+  }, 90000);
 });
 
 describe(getRequirement(7), () => {
@@ -101,7 +101,7 @@ describe(getRequirement(7), () => {
 
     expect(alertLogin).toBe('O endereço de e-mail ou a senha não estão corretos. Por favor, tente novamente.');
     expect(await page.url()).toEqual(URL(containerPorts.frontend).URL_PAGE_LOGIN);
-  });
+  }, 90000);
 });
 
 describe(getRequirement(9), () => {
@@ -133,7 +133,7 @@ describe(getRequirement(9), () => {
 
     expect(alertLogin).toBe('O endereço de e-mail ou a senha não estão corretos. Por favor, tente novamente.');
     expect(await page.url()).toEqual(URL(containerPorts.frontend).URL_PAGE_LOGIN);
-  });
+  }, 90000);
 });
 
 describe(getRequirement(11), () => {
@@ -163,7 +163,7 @@ describe(getRequirement(11), () => {
 
     expect(alertLogin).toBe('O endereço de e-mail ou a senha não estão corretos. Por favor, tente novamente.');
     expect(await page.url()).toEqual(URL(containerPorts.frontend).URL_PAGE_LOGIN);
-  });
+  }, 90000);
 });
 
 describe(getRequirement(13), () => {
@@ -193,7 +193,7 @@ describe(getRequirement(13), () => {
 
     expect(alertLogin).toBe('O endereço de e-mail ou a senha não estão corretos. Por favor, tente novamente.');
     expect(await page.url()).toEqual(URL(containerPorts.frontend).URL_PAGE_LOGIN);
-  });
+  }, 90000);
 });
 
 describe(getRequirement(14), () => {
@@ -216,10 +216,11 @@ describe(getRequirement(14), () => {
       )
       .then(({ status, data }) => ({status, data}))
       .catch(({response: { status, data }}) => ({ status, data }));
-
+      console.log('token', token);
+        console.log(result);
     expect(result).toHaveProperty("status");
     expect(result).toHaveProperty("data");
     expect(result.status).toBe(200);
     expect(result.data).toBe("admin");
-  });
+  }, 90000);
 });

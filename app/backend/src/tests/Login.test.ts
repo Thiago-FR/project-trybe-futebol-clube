@@ -61,10 +61,10 @@ describe('Login', () => {
           .send({email: ''})
           .end((err, res) => {
             
-            expect(res).to.have.status(401);
+            expect(res).to.have.status(400);
             expect(res).to.be.json;
             expect(res.body).to.be.a('object');
-            expect(res.text).to.be.includes('Incorrect email or password');
+            expect(res.text).to.be.includes('All fields must be filled');
             done();
          });
     });
@@ -87,10 +87,10 @@ describe('Login', () => {
           .send(loginPasswordVazio)
           .end((err, res) => {
             
-            expect(res).to.have.status(401);
+            expect(res).to.have.status(400);
             expect(res).to.be.json;
             expect(res.body).to.be.a('object');
-            expect(res.text).to.be.includes('Incorrect email or password');
+            expect(res.text).to.be.includes('All fields must be filled');
             done();
          });
     });

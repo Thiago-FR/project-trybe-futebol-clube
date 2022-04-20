@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as cors from 'cors';
 import ErrorHandle from './middlewares/ErrorHandle';
-import LoginRouter, { MatchesRouter, TeamsRouter } from './routes';
+import LoginRouter, { LeaderboardRouter, MatchesRouter, TeamsRouter } from './routes';
 
 class App {
   public app: express.Express;
@@ -11,6 +11,8 @@ class App {
   private teamsRoutes = new TeamsRouter(express.Router());
 
   private matchesRoutes = new MatchesRouter(express.Router());
+
+  private leaderboardRoutes = new LeaderboardRouter(express.Router());
 
   constructor() {
     this.app = express();
@@ -39,6 +41,7 @@ class App {
     this.app.use('/login', this.loginRoutes.router);
     this.app.use('/teams', this.teamsRoutes.router);
     this.app.use('/matches', this.matchesRoutes.router);
+    this.app.use('/leaderboard', this.leaderboardRoutes.router);
 
     this.app.use(ErrorHandle.handleError);
   }

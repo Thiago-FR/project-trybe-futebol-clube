@@ -2,4 +2,3 @@ bcryptjs
 --save-dev @types/bcryptjs
 joi
 express-rescue
---save-dev @types/express-rescue

@@ -5,17 +5,13 @@ import Auth from '../middlewares/Auth';
 export default class MatchesRouter {
   constructor(public router: Router) {
     this.routes();
+    this.routesValidate();
   }
 
   private routes() {
-    this.router.use(Auth.auth);
     this.router.get(
       '/',
       (req: Request, res: Response) => MatchesController.findAll(req, res),
-    );
-    this.router.post(
-      '/',
-      (req: Request, res: Response, next: NextFunction) => MatchesController.create(req, res, next),
     );
     this.router.patch(
       '/:id/finish',
@@ -29,5 +25,13 @@ export default class MatchesRouter {
     //   '/:id',
     //   (req: Request, res: Response) => TeamsController.findByPk(req, res),
     // );
+  }
+
+  private routesValidate() {
+    this.router.use(Auth.auth);
+    this.router.post(
+      '/',
+      (req: Request, res: Response, next: NextFunction) => MatchesController.create(req, res, next),
+    );
   }
 }

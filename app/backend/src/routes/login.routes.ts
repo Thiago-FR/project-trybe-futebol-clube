@@ -6,8 +6,8 @@ import Auth from '../middlewares/Auth';
 
 export default class LoginRouter {
   constructor(public router: Router) {
-    this.routes();
     this.routesValidate();
+    this.routes();
   }
 
   private routes() {

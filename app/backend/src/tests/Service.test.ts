@@ -2,12 +2,14 @@ import * as sinon from 'sinon';
 import * as chai from 'chai';
 
 import user from './mocks/User';
-import team, { teamsId_1 } from './mocks/Team';
-import matche, { matcheCreate } from './mocks/Matche';
+import team, { teamsId_1, teamsTotal } from './mocks/Team';
+import matche, { matcheCreate, matcheTotal } from './mocks/Matche';
+import { leaderBoardComplet, leaderBoardHome, leaderBoardAway } from './mocks/LeaderBoard';
 import Users from '../database/models/Users';
-import UserService, { MatchesService, TeamsService } from '../services';
+import UserService, { LeaderboardService, MatchesService, TeamsService } from '../services';
 import Teams from '../database/models/Teams';
 import Matches from '../database/models/Matches';
+import { TableConstructAway, TableConstructHome } from '../helpers';
 
 const { expect } = chai;
 
@@ -115,4 +117,38 @@ describe('Test MatchersService', () => {
 
   //   expect(teams).to.equal(teamsId_1);
   // })
+});
+
+describe('Test LeaderboardService', () => {
+  before(async () => {
+    sinon
+      .stub(Teams, "findAll")
+      .resolves(teamsTotal as any);
+    sinon
+      .stub(Matches, "findAll")
+      .resolves(matcheTotal as any);
+  });
+
+  after(()=>{
+    (Teams.findAll as sinon.SinonStub).restore();
+    (Matches.findAll as sinon.SinonStub).restore();
+  })
+
+  it('Test LeaderboardService findAll TeamHome', async () => {
+    const teams = await LeaderboardService.findAll(TableConstructHome);
+    
+    expect(JSON.stringify(teams)).to.equals(JSON.stringify(leaderBoardHome));
+  })
+
+  it('Test LeaderboardService findAll TeamAway', async () => {
+    const teams = await LeaderboardService.findAll(TableConstructAway);
+    
+    expect(JSON.stringify(teams)).to.equals(JSON.stringify(leaderBoardAway));
+  })
+
+  it('Test LeaderboardService findAllSumTables', () => {
+    const teams = LeaderboardService.findAllSumTables(leaderBoardHome, leaderBoardAway);
+    
+    expect(JSON.stringify(teams)).to.equals(JSON.stringify(leaderBoardComplet));
+  })
 });

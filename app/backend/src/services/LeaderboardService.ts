@@ -1,7 +1,7 @@
 import Teams from '../database/models/Teams';
 import Matches from '../database/models/Matches';
 import { IMatches, IReturnsTeams } from '../interfaces';
-import TableConstruct from '../helpers/TableConstruct';
+import TableConstruct from '../helpers';
 
 export default class LeaderboardService {
   static async findAll(Table: any): Promise<IReturnsTeams[]> {

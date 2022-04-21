@@ -3,6 +3,7 @@ import IPayload from './IPayload';
 import IStatusCode from './IStatusCode';
 import ITeams from './ITeams';
 import IMatches from './IMatches';
+import IReturnsTeams from './IReturnsTeams';
 
 export default IUser;
 export {
@@ -10,4 +11,5 @@ export {
   IStatusCode,
   ITeams,
   IMatches,
+  IReturnsTeams,
 };

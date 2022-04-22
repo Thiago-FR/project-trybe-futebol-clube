@@ -38,21 +38,21 @@ export default class MatchesController {
       : res.status(201).json(matche);
   }
 
-  static async updateMatcheInProgress(req: Request, res: Response): Promise<void> {
+  static async updateMatcheInProgress(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
     await MatchesService.update({ inProgress: false }, Number(id));
 
-    return res.status(200).end();
+    return res.status(200).json({ message: 'Updated to finish' });
   }
 
-  static async updateMatche(req: Request, res: Response): Promise<void> {
+  static async updateMatche(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const { homeTeamGoals, awayTeamGoals } = req.body;
 
     await MatchesService.update({ homeTeamGoals, awayTeamGoals }, Number(id));
 
-    return res.status(200).end();
+    return res.status(200).json({ message: 'Updated' });
   }
 
   static async findOne(req: Request, res: Response): Promise<Response> {

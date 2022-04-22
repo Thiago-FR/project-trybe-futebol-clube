@@ -95,6 +95,7 @@ describe('Matches', () => {
         .end((err, res) => {
           
           expect(res).to.have.status(200);
+          expect(res.text).to.be.includes('Updated to finish');
           done();
        });
   })
@@ -106,6 +107,7 @@ describe('Matches', () => {
         .end((err, res) => {
           
           expect(res).to.have.status(200);
+          expect(res.text).to.be.includes('Updated');
           done();
        });
   })

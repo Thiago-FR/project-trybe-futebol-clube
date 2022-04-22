@@ -51,9 +51,15 @@ export default class MatchesService {
     await Matches.update(params, { where: { id } });
   }
 
-  // static async findByPk(id: number): Promise<ITeams> {
-  //   const team = await Matches.findByPk(id);
+  static async findOne(id: number): Promise<IMatches> {
+    const team = await Matches.findOne({
+      where: { id },
+      include: [
+        { model: Teams, as: 'teamHome', attributes: { exclude: ['id'] } },
+        { model: Teams, as: 'teamAway', attributes: { exclude: ['id'] } },
+      ],
+    });
 
-  //   return team as ITeams;
-  // }
+    return team as IMatches;
+  }
 }

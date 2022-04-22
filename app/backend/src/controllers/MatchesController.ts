@@ -38,12 +38,12 @@ export default class MatchesController {
       : res.status(201).json(matche);
   }
 
-  static async updateMatcheInProgress(req: Request, res: Response): Promise<Response> {
+  static async updateMatcheInProgress(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
 
     await MatchesService.update({ inProgress: false }, Number(id));
 
-    return res.status(200).send('Finalizado');
+    return res.status(200).end();
   }
 
   static async updateMatche(req: Request, res: Response): Promise<void> {
@@ -55,10 +55,10 @@ export default class MatchesController {
     return res.status(200).end();
   }
 
-  // static async findByPk(req: Request, res: Response): Promise<Response> {
-  //   const { id } = req.params;
-  //   const user = await TeamsService.findByPk(Number(id));
+  static async findOne(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const user = await MatchesService.findOne(Number(id));
 
-  //   return res.status(200).json(user);
-  // }
+    return res.status(200).json(user);
+  }
 }

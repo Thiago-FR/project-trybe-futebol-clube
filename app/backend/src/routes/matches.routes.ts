@@ -18,6 +18,10 @@ export default class MatchesRouter {
       (req: Request, res: Response) => MatchesController.updateMatche(req, res),
     );
     this.router.get(
+      '/:id',
+      (req: Request, res: Response) => MatchesController.findOne(req, res),
+    );
+    this.router.get(
       '/',
       (req: Request, res: Response) => MatchesController.findAll(req, res),
     );

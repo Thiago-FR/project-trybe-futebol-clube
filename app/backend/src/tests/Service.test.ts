@@ -71,32 +71,32 @@ describe('Test MatchersService', () => {
     sinon
       .stub(Matches, "update")
       .resolves(undefined);
-    // sinon
-    // .stub(Matches, "findByPk")
-    // .resolves(matche as any);
+    sinon
+    .stub(Matches, "findOne")
+    .resolves(matche[0] as any);
   });
 
   after(()=>{
     (Matches.findAll as sinon.SinonStub).restore();
     (Matches.create as sinon.SinonStub).restore();
+    (Matches.findOne as sinon.SinonStub).restore();
     
     (TeamsService.findByPk as sinon.SinonStub).restore();
-    // (Matches.findByPk as sinon.SinonStub).restore();
   })
 
-  it('Test MatchersService findAll', async () => {
+  it('Test MatchesService findAll', async () => {
     const matches = await MatchesService.findAll();
 
     expect(matches).to.equal(matche);
   })
 
-  it('Test MatchersService findSearch', async () => {
+  it('Test MatchesService findSearch', async () => {
     const matches = await MatchesService.findSearch(true);
 
     expect(matches).to.equal(matche);
   })
 
-  it('Test MatchersService create OK', async () => {
+  it('Test MatchesService create OK', async () => {
     sinon
       .stub(TeamsService, "findByPk")
       .resolves(teamsId_1 as any);
@@ -106,17 +106,17 @@ describe('Test MatchersService', () => {
     expect(matches).to.equal(matcheCreate);
   })
 
-  it('Test MatchersService update', async () => {
+  it('Test MatchesService update', async () => {
     const matches = await MatchesService.update({}, 1);
 
     expect(matches).to.equal(undefined);
   })
 
-  // it('Test TeamService findByPk', async () => {
-  //   const teams = await TeamsService.findByPk(1);
+  it('Test MatchesService findOne', async () => {
+    const teams = await MatchesService.findOne(1);
 
-  //   expect(teams).to.equal(teamsId_1);
-  // })
+    expect(teams).to.equal(matche[0]);
+  })
 });
 
 describe('Test LeaderboardService', () => {

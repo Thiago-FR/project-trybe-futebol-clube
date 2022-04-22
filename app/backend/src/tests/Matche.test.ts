@@ -35,9 +35,9 @@ describe('Matches', () => {
     sinon
       .stub(MatchesService, "update")
       .resolves(undefined);
-    // sinon
-    // .stub(MatchesService, "findByPk")
-    // .resolves(matche as any);
+    sinon
+    .stub(MatchesService, "findOne")
+    .resolves(matche[0] as any);
      
     token = await HashToken.token({
       id: user.id,
@@ -52,7 +52,7 @@ describe('Matches', () => {
     (MatchesService.findSearch as sinon.SinonStub).restore();
     (MatchesService.create as sinon.SinonStub).restore();
     (MatchesService.update as sinon.SinonStub).restore();
-    // (MatchesService.findByPk as sinon.SinonStub).restore();
+    (MatchesService.findOne as sinon.SinonStub).restore();
   })
 
   it('Test /matches findSearch true', (done) => {
@@ -111,16 +111,16 @@ describe('Matches', () => {
   })
 
 
-  // it('Test /matches/:id findByPk', (done) => {
-  //   chai.request(app).get('/teams/1')
-  //       .set('authorization', token)
-  //       .end((err, res) => {
+  it('Test /matches/:id findByPk', (done) => {
+    chai.request(app).get('/matches/1')
+        .set('authorization', token)
+        .end((err, res) => {
           
-  //         expect(res).to.have.status(200);
-  //         expect(res.text).to.be.equal(JSON.stringify());
-  //         done();
-  //      });
-  // })
+          expect(res).to.have.status(200);
+          expect(res.text).to.be.equal(JSON.stringify(matche[0]));
+          done();
+       });
+  })
 });
 
 describe('Matches Fail', () => {

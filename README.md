@@ -28,6 +28,8 @@
  - Criar e associar tabelas usando `models` do `sequelize`;
  - Construir uma **API REST** com endpoints para consumir os models criados;
  - Fazer um `CRUD` utilizando `ORM`;
+ - Proteção de senha com biblioteca `bcryptjs`
+ - Gerar token `JWT
  - Realizar TDD
 
 ---
@@ -183,3 +185,4 @@ Body
 ```
 
 ## Protótipo <a name="prototipo"></a>
+![Prototipo](/TFC.gif)

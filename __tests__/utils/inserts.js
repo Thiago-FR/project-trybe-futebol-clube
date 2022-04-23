@@ -78,7 +78,8 @@ const insertFinished = async (page, { homeTeam = 'Corinthians', awayTeam = 'inte
     expectedRequestType: 'script',
     expectedRequestMethod: 'PATCH',
     expectedResponseStatus: 200,
-    expectedResponseUrl: `${URL(containerPorts.backend).BASE_URL}/matches/${match.id}/finish`
+    expectedResponseUrl: `${URL(containerPorts.backend).BASE_URL}/matches/${match.id}/finish`,
+    timeOut: 100000
   });
   await page.waitForTimeout(puppeteerDefs.pause.brief);
   return body

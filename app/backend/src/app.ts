@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as cors from 'cors';
 import ErrorHandle from './middlewares/ErrorHandle';
+import 'express-async-errors';
 import LoginRouter, { LeaderboardRouter, MatchesRouter, TeamsRouter } from './routes';
 
 class App {

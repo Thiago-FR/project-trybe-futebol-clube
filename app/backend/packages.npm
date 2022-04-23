@@ -1,4 +1,4 @@
 bcryptjs
 --save-dev @types/bcryptjs
 joi
-express-rescue
+express-async-errors
